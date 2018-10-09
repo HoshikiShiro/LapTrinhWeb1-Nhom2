@@ -41,7 +41,7 @@ if(isset($_POST['name']))
 		display: inline-block;
 		padding: 10px
 	}
-</style>
+	</style>
 </head>
 <body>
 
@@ -130,14 +130,27 @@ if(isset($_POST['name']))
 								</thead>
 								<tbody>
 									<?php
+									if(isset($_GET['page']))
+									{
+										$page = $_GET['page'];
+									}else
+									{
+										$page = 1;
+									}
+									$url = $_SERVER['PHP_SELF'];
+									$total = $db->length();
+									$per_page = 3;
+									$offset = 3;
 									if(isset($_GET['del']))
 									{
 										$db->del($_GET['del']);
 									}
-									$arr = $db->getAll();
+									$arr = $db->getAllProducts($page,$per_page);
+
+
 									foreach($arr as $value)
 									{
-										?>
+									?>
 										<tr class="">
 											<td><img src="public/images/<?php echo $value['image']?>" width="100" height="100"></td>
 											<td><?php echo $value['name']?></td>
@@ -150,15 +163,16 @@ if(isset($_POST['name']))
 												<a href="index.php?del=<?php echo $value['ID']?>" class="btn btn-danger btn-mini">Delete</a>
 											</td>
 										</tr>
-										<?php
+									<?php
 									}
 									?>
 								</tbody>
 							</table>
 							<ul class="pagination">
-								<li class="active"><a href="">1</a></li>
-								<li><a href="">2</a></li>
-								<li><a href="">3</a></li>
+								<?php
+									echo $db->paginate($url, $total, $page, $per_page, $offset);
+								?>
+
 							</ul>
 
 						</div>

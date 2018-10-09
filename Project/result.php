@@ -1,6 +1,7 @@
 <?php
 require "data.php";
 require "config.php";
+$db = new DB;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,9 +106,24 @@ require "config.php";
 								</thead>
 								<tbody>
 									<?php
-									$db = new DB;
 									$key = $_GET['key'];
-									$product = $db->getFind($key);
+									if(isset($_GET['page']))
+									{
+										$page = $_GET['page'];
+									}else
+									{
+										$page = 1;
+									}
+									$url = $_SERVER['PHP_SELF']."?key=$key";
+									$per_page = 3;
+									$offset = 3;
+									if(isset($_GET['del']))
+									{
+										$db->del($_GET['del']);
+									}
+									$product = $db->getFindArray($key, $page, $per_page);
+									$obj = $db->getFindObj($key, $page, $per_page);
+									$total = $db->getRow($obj);
 									if($product != NULL)
 									{
 										foreach($product as $value)
@@ -140,6 +156,12 @@ require "config.php";
 									?>
 								</tbody>
 							</table>
+							<ul class="pagination">
+								<?php
+									echo $db->paginateResult($url, $total, $page, $per_page, $offset);
+								?>
+
+							</ul>
 						</div>
 					</div>
 				</div>
