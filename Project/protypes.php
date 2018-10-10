@@ -1,6 +1,15 @@
 <?php
 require "data.php";
 require "config.php";
+$db = new DB;
+if(isset($_POST['type_name']))
+{
+	$target_dir = ".../uploads/";
+	$target_file =$target_dir.basename($_FILES["fileUpload"]["name"]);
+	$uploadOk = 1;
+	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+	$db->addProtype($_POST['type_name'],$target_file);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +79,7 @@ require "config.php";
 
 			<li> <a href="form.php"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
 			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-			<li> <a href="prototypes.php"><i class="icon icon-th-list"></i> <span>Prototypes</span></a></li>
+			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Protypes</span></a></li>
 
 
 
@@ -87,22 +96,21 @@ require "config.php";
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="widget-box">
-						<div class="widget-title"> <span class="icon"><a href="form_manufacture.php"><i class="icon-plus"></i></a></span>
+						<div class="widget-title"> <span class="icon"><a href="form_protypes.php"><i class="icon-plus"></i></a></span>
 							<h5>Products</h5>
 						</div>
 						<div class="widget-content nopadding">
 							<table class="table table-bordered table-striped">
 								<thead>
 									<tr>
-										<th>Manu_ID</th>
-										<th>Manu_NAME</th>
-										<th>Manu_IMAGE</th>
+										<th>Proto_ID</th>
+										<th>Proto_NAME</th>
+										<th>Proto_IMAGE</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php
-									$db = new DB;
 									$manu = $db->getProto();
 									foreach ($manu as $value) {
 									?>

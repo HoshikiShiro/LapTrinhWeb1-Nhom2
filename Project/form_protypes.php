@@ -78,7 +78,7 @@
 <div id="content">
 	<div id="content-header">
 		<div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom current"><i class="icon-home"></i> Home</a></div>
-		<h1>Add New Manufacture</h1>
+		<h1>Add New Protype</h1>
 	</div>
 	<div class="container-fluid">
 		<hr>
@@ -91,11 +91,11 @@
 					<div class="widget-content nopadding">
 
 						<!-- BEGIN USER FORM -->
-						<form action="manufactures.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+						<form action="protypes.php" method="post" class="form-horizontal" enctype="multipart/form-data">
 							<div class="control-group">
-								<label class="control-label">Manufacture Name :</label>
+								<label class="control-label">Protype Name :</label>
 								<div class="controls">
-									<input type="text" class="span11" placeholder="Manufacture name" name="manu_name" /> *
+									<input type="text" class="span11" placeholder="Protype name" name="type_name" /> *
 								</div>
 							</div>
 

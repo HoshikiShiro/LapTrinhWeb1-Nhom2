@@ -2,17 +2,65 @@
 session_start();
 if(isset($_SESSION['user']))
 {
-require "data.php";
-require "config.php";
+	require "data.php";
+	require "config.php";
 
-$db = new DB;
-if(isset($_POST['name']))
-{
-	$target_file =basename($_FILES["fileUpload"]["name"]);
-	$uploadOk = 1;
-	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-	$db->add($_POST['name'],$target_file, $_POST['description'],$_POST['manu_id'],$_POST['type_id'],$_POST['price']);
-}
+	$db = new DB;
+	if(isset($_POST['name']))
+	{
+		$targetDir = "public/images/";
+		$targetFile = $targetDir.basename($_FILES["fileUpload"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+		if(isset($_POST["submit"])) 
+		{
+			$check = getimagesize($_FILES["fileUpload"]["tmp_name"]);
+			if($check!==false) 
+			{
+				echo "File is an image - ".$check["mime"].".";
+				$uploadOk=1;
+			} else 
+			{
+				echo "File is not an image.";
+				$uploadOk=0;
+			}
+		}
+
+		if(file_exists($targetFile)) 
+		{
+			echo "Sorry, file already exists";
+			$uploadOk = 0;
+		}
+
+		if($_FILES["fileUpload"]["size"]>500000)
+		{
+			echo "Sorry, your file is too large.";
+			$uploadOk = 0;
+		}
+
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") 
+		{
+			echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+			$uploadOk = 0;
+		}
+
+		if($uploadOk ==0) 
+		{
+			echo "Sorry, your file was not uploaded.";
+		} 
+		else 
+		{
+			if(move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $targetFile)) 
+			{
+				echo "The file ".basename($_FILES["fileUpload"]["name"])." has been uploaded.";
+			} else 
+			{
+				echo "Sorry, there was an error uploading your file";
+			}
+		}
+	/*move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $targetFile);*/
+	$db->add($_POST['name'],$_FILES["fileUpload"]["name"], $_POST['description'],$_POST['manu_id'],$_POST['type_id'],$_POST['price']);
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +89,7 @@ if(isset($_POST['name']))
 		display: inline-block;
 		padding: 10px
 	}
-	</style>
+</style>
 </head>
 <body>
 
@@ -96,7 +144,7 @@ if(isset($_POST['name']))
 
 			<li> <a href="form.php"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
 			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-			<li> <a href="prototypes.php"><i class="icon icon-th-list"></i> <span>Prototypes</span></a></li>
+			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Protypes</span></a></li>
 
 
 		</ul>
@@ -150,7 +198,7 @@ if(isset($_POST['name']))
 
 									foreach($arr as $value)
 									{
-									?>
+										?>
 										<tr class="">
 											<td><img src="public/images/<?php echo $value['image']?>" width="100" height="100"></td>
 											<td><?php echo $value['name']?></td>
@@ -163,18 +211,17 @@ if(isset($_POST['name']))
 												<a href="index.php?del=<?php echo $value['ID']?>" class="btn btn-danger btn-mini">Delete</a>
 											</td>
 										</tr>
-									<?php
+										<?php
 									}
 									?>
 								</tbody>
 							</table>
 							<ul class="pagination">
 								<?php
-									echo $db->paginate($url, $total, $page, $per_page, $offset);
+								echo $db->paginate($url, $total, $page, $per_page, $offset);
 								?>
 
 							</ul>
-
 						</div>
 					</div>
 				</div>

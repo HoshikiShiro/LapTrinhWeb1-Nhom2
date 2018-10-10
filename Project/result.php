@@ -71,7 +71,7 @@ $db = new DB;
 
 			<li> <a href="form.php"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
 			<li> <a href="manufactures.php"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-			<li> <a href="prototypes.php"><i class="icon icon-th-list"></i> <span>Prototypes</span></a></li>
+			<li> <a href="protypes.php"><i class="icon icon-th-list"></i> <span>Protypes</span></a></li>
 
 
 

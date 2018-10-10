@@ -49,7 +49,7 @@ class DB
 	//Return all prototype
 	public function getProto()
 	{
-		$sql = "SELECT * FROM `protypes` ";
+		$sql = "SELECT * FROM `protypes`";
 		$result = self::$conn->query($sql);
 		return $this->getArray($result);
 	}
@@ -59,6 +59,7 @@ class DB
 	{
 		return $obj->num_rows;
 	}
+
 	//Return found item(s)
 	public function getFindArray($string, $page, $per_page)
 	{
@@ -86,6 +87,15 @@ class DB
 		$sql = "INSERT INTO `products` (name,image,description,manu_ID,type_ID,price) VALUES ('$name','$image','$description','$manu_ID','$type_ID',$price)";
 		self::$conn->query($sql);
 	}
+
+	//Add a protype
+	public function addProtype($type_name,$type_img)
+	{
+		$sql = "INSERT INTO `protypes` (type_name,type_img) VALUES ($type_name,$type_img)";
+		self::$conn->query($sql);
+	}
+
+
 	public function user()
 	{
 		$sql = "SELECT * FROM `user` ";
