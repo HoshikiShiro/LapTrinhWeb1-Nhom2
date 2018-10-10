@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th9 26, 2018 lúc 09:30 AM
+-- Thời gian đã tạo: Th10 10, 2018 lúc 08:32 AM
 -- Phiên bản máy phục vụ: 5.7.21
 -- Phiên bản PHP: 5.6.35
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `type_ID` int(11) NOT NULL COMMENT 'mã loại sản phẩm',
   `price` int(11) DEFAULT NULL COMMENT 'giá sản phẩm',
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=275 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=314 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
@@ -94,7 +94,8 @@ INSERT INTO `products` (`ID`, `name`, `image`, `description`, `manu_ID`, `type_I
 (22, 'product22', 'img22.png', 'iphone1.png', 5, 5, 17),
 (23, 'product23', 'img23.png', 'iphone1.png', 5, 5, 18),
 (24, 'product24', 'img24.png', 'Cu lua 2', 5, 5, 2000),
-(25, 'product25', 'img25.png', 'Cu lua 3', 5, 5, 3000);
+(25, 'product25', 'img25.png', 'Cu lua 3', 5, 5, 3000),
+(313, 'asdadad', 'select-files-to-copy.png', 'eqwe', 1, 1, 23123);
 
 -- --------------------------------------------------------
 
@@ -120,6 +121,28 @@ INSERT INTO `protypes` (`type_ID`, `type_name`, `type_img`) VALUES
 (3, 'màu vàng', 'type_img3.png'),
 (4, 'màu hồng', 'type_img4.png'),
 (5, 'màu xanh dương', 'type_img5.png');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'mã user',
+  `user_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'tên user',
+  `user_password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'mật khẩu',
+  PRIMARY KEY (`user_ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`user_ID`, `user_name`, `user_password`) VALUES
+(1, 'admin', '123456'),
+(2, 'guest', '789132');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

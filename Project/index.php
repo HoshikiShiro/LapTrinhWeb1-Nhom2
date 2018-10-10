@@ -59,7 +59,10 @@ if(isset($_SESSION['user']))
 			}
 		}
 	/*move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $targetFile);*/
-	$db->add($_POST['name'],$_FILES["fileUpload"]["name"], $_POST['description'],$_POST['manu_id'],$_POST['type_id'],$_POST['price']);
+		if($uploadOk !=0)
+		{
+			$db->add($_POST['name'],$_FILES["fileUpload"]["name"], $_POST['description'],$_POST['manu_id'],$_POST['type_id'],$_POST['price']);
+		}
 	}
 ?>
 <!DOCTYPE html>
