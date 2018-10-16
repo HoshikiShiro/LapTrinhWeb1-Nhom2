@@ -119,7 +119,7 @@ if(isset($_POST['type_name']))
 											<td><?php echo $value['type_name']?></td>
 											<td><img src="public/images/<?php echo $value['type_img']?>" width="50" height="50"></td>
 											<td>
-												<a href="#" class="btn btn-success btn-mini">Edit</a>
+												<a href="form_protypes.php" class="btn btn-success btn-mini">Edit</a>
 												<a href="#" class="btn btn-danger btn-mini">Delete</a>
 											</td>
 										</tr>

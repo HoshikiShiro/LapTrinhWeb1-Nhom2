@@ -116,7 +116,6 @@ class DB
 		return $this->getArray($result);     
 	} 
 
-
 	//Return number of Item(s)
 	public function length()
 	{
@@ -234,4 +233,41 @@ class DB
 
 		return $first_link.$prev_link.$link.$next_link.$last_link;
 	} 
+
+	//Check username and password
+	public function checkUser($user, $pass)
+	{
+		$sql = "SELECT * FROM `users`";
+		$result = self::$conn->query($sql);
+		$User = $this->getArray($result);
+		foreach ($User as $key => $value) 
+		{
+			if($value["user_name"] == $user && $pass == $value["user_password"])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//return 1 product
+	public function getProduct($ID)
+	{
+		$sql = "SELECT `ID`,`name`,`image`,`description`,`price`,`manufactures`.`manu_name`,`protypes`.`type_name` FROM `products` JOIN `manufactures` ON `products`.`manu_ID` = `manufactures`.`manu_ID` JOIN `protypes` ON `products`.`type_ID` = `protypes`.`type_ID` WHERE `ID` = $ID";
+		$result = self::$conn->query($sql);
+		return $this->getArray($result);
+	}
+	//Update product
+	public function update($ID, $name,$image,$description,$manu_ID,$type_ID,$price)
+	{
+		$sql = "UPDATE `products` SET name = '$name', image = '$image', description = '$description', manu_ID = $manu_ID, type_ID = $type_ID, price = $price  WHERE ID = $ID";
+		// var_dump($sql);
+		self::$conn->query($sql);
+	}
+	public function updateNoImg($ID, $name,$description,$manu_ID,$type_ID,$price)
+	{
+		$sql = "UPDATE `products` SET name = '$name', description = '$description', manu_ID = $manu_ID, type_ID = $type_ID, price = $price  WHERE ID = $ID";
+		// var_dump($sql);
+		self::$conn->query($sql);
+	}
 }

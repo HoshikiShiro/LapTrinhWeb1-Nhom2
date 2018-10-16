@@ -58,41 +58,102 @@ if(isset($_SESSION['user']))
 				echo "Sorry, there was an error uploading your file";
 			}
 		}
-	/*move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $targetFile);*/
+		/*move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $targetFile);*/
 		if($uploadOk !=0)
 		{
 			$db->add($_POST['name'],$_FILES["fileUpload"]["name"], $_POST['description'],$_POST['manu_id'],$_POST['type_id'],$_POST['price']);
 		}
 	}
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Mobile Admin</title>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="public/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="public/css/bootstrap-responsive.min.css" />
-	<link rel="stylesheet" href="public/css/uniform.css" />
-	<link rel="stylesheet" href="public/css/select2.css" />
-	<link rel="stylesheet" href="public/css/matrix-style.css" />
-	<link rel="stylesheet" href="public/css/matrix-media.css" />
-	<link href="public/font-awesome/css/font-awesome.css" rel="stylesheet" />
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-	<style type="text/css">
-	ul.pagination{
-		list-style: none;
-		float: right;
+	if(isset($_POST['name1']))
+	{
+		$targetDir = "public/images/";
+		$targetFile = $targetDir.basename($_FILES["fileUpload1"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+		if(isset($_POST["submit"])) 
+		{
+			$check = getimagesize($_FILES["fileUpload1"]["tmp_name"]);
+			if($check!==false) 
+			{
+				// echo "File is an image - ".$check["mime"].".";
+				$uploadOk=1;
+			} else 
+			{
+				// echo "File is not an image.";
+				$uploadOk=0;
+			}
+		}
+
+		if(file_exists($targetFile)) 
+		{
+			unlink($targetFile);
+			// echo "Sorry, file already exists";
+			// $uploadOk = 0;
+		}
+
+		if($_FILES["fileUpload1"]["size"]>5000000000000000000000)
+		{
+			// echo "Sorry, your file is too large.";
+			$uploadOk = 0;
+		}
+
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") 
+		{
+			// echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+			$uploadOk = 0;
+		}
+
+		if($uploadOk ==0) 
+		{
+			// echo "Sorry, your file was not uploaded.";
+		} 
+		else 
+		{
+			if(move_uploaded_file($_FILES["fileUpload1"]["tmp_name"], $targetFile)) 
+			{
+				// echo "The file ".basename($_FILES["fileUpload1"]["name"])." has been uploaded.";
+			} else 
+			{
+				// echo "Sorry, there was an error uploading your file";
+			}
+		}
+		if($uploadOk !=0)
+		{
+			$db->update($_GET['id'], $_POST['name1'], $_FILES["fileUpload1"]["name"], $_POST['description1'], $_POST['manu_id1'], $_POST['type_id1'], $_POST['price1']);
+		}else
+		{
+			$db->updateNoImg($_GET['id'], $_POST['name1'], $_POST['description1'], $_POST['manu_id1'], $_POST['type_id1'], $_POST['price1']);
+		}
 	}
-	ul.pagination li.active{
-		font-weight: bold
-	}
-	ul.pagination li{
-		float: left;
-		display: inline-block;
-		padding: 10px
-	}
-</style>
+	?>
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<title>Mobile Admin</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="public/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="public/css/bootstrap-responsive.min.css" />
+		<link rel="stylesheet" href="public/css/uniform.css" />
+		<link rel="stylesheet" href="public/css/select2.css" />
+		<link rel="stylesheet" href="public/css/matrix-style.css" />
+		<link rel="stylesheet" href="public/css/matrix-media.css" />
+		<link href="public/font-awesome/css/font-awesome.css" rel="stylesheet" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+		<style type="text/css">
+		ul.pagination{
+			list-style: none;
+			float: right;
+		}
+		ul.pagination li.active{
+			font-weight: bold
+		}
+		ul.pagination li{
+			float: left;
+			display: inline-block;
+			padding: 10px
+		}
+	</style>
 </head>
 <body>
 
@@ -210,7 +271,7 @@ if(isset($_SESSION['user']))
 											<td><?php echo $value['description']?></td>
 											<td><?php echo $value['price']?></td>
 											<td>
-												<a href="form.php" class="btn btn-success btn-mini">Edit</a>
+												<a href="form_update.php?update_ID=<?php echo $value['ID']?>" class="btn btn-success btn-mini">Edit</a>
 												<a href="index.php?del=<?php echo $value['ID']?>" class="btn btn-danger btn-mini">Delete</a>
 											</td>
 										</tr>

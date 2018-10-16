@@ -2,6 +2,8 @@
 require "data.php";
 require "config.php";
 $db = new DB;
+if(isset($_GET['key']))
+{
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,7 +139,7 @@ $db = new DB;
 												<td><?php echo $value['description']?></td>
 												<td><?php echo $value['price']?></td>
 												<td>
-													<a href="edit.php" class="btn btn-success btn-mini">Edit</a>
+													<a href="form_update.php" class="btn btn-success btn-mini">Edit</a>
 													<form action="" method="">
 														<input type="submit" class="btn btn-danger btn-mini" value="Delete">
 													</form>
@@ -168,6 +170,12 @@ $db = new DB;
 			</div>
 		</div>
 	</div>
+	<?php
+	}else
+	{
+		header("location:index.php");
+	}
+	?>
 	<!-- END CONTENT -->
 	<!--Footer-part-->
 	<div class="row-fluid">
