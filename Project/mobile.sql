@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 10, 2018 lúc 08:32 AM
+-- Thời gian đã tạo: Th10 17, 2018 lúc 08:56 AM
 -- Phiên bản máy phục vụ: 5.7.21
 -- Phiên bản PHP: 5.6.35
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `type_ID` int(11) NOT NULL COMMENT 'mã loại sản phẩm',
   `price` int(11) DEFAULT NULL COMMENT 'giá sản phẩm',
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=314 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=317 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
@@ -94,8 +94,7 @@ INSERT INTO `products` (`ID`, `name`, `image`, `description`, `manu_ID`, `type_I
 (22, 'product22', 'img22.png', 'iphone1.png', 5, 5, 17),
 (23, 'product23', 'img23.png', 'iphone1.png', 5, 5, 18),
 (24, 'product24', 'img24.png', 'Cu lua 2', 5, 5, 2000),
-(25, 'product25', 'img25.png', 'Cu lua 3', 5, 5, 3000),
-(313, 'asdadad', 'select-files-to-copy.png', 'eqwe', 1, 1, 23123);
+(25, 'product25', 'img25.png', 'Cu lua 3', 5, 5, 3000);
 
 -- --------------------------------------------------------
 
@@ -134,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'tên user',
   `user_password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'mật khẩu',
   PRIMARY KEY (`user_ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
