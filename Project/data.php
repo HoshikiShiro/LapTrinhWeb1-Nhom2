@@ -82,12 +82,21 @@ class DB
 	}
 
 	//Add an item
+	public function check($name,$image,$description,$price)
+	{
+		if(is_string($name) && is_numeric($price) && is_string($description))
+		{
+			return true;
+		}else
+		{		
+			return false;
+		}
+	}
 	public function add($name,$image,$description,$manu_ID,$type_ID,$price)
 	{
-		$sql = "INSERT INTO `products` (name,image,description,manu_ID,type_ID,price) VALUES ('$name','$image','$description','$manu_ID','$type_ID',$price)";
+		$sql = "INSERT INTO `products` (name,image,description,manu_ID,type_ID,price) VALUES ('$name','$image','$description','$manu_ID',	'$type_ID',$price)";
 		self::$conn->query($sql);
 	}
-
 	//Add a protype
 	public function addProtype($type_name,$type_img)
 	{
@@ -249,6 +258,34 @@ class DB
 		}
 		return false;
 	}
+	public function checkAdmin($user, $pass)
+	{
+		$sql = "SELECT * FROM `users` WHERE `user_name` LIKE 'admin'";
+		$result = self::$conn->query($sql);
+		$User = $this->getArray($result);
+		foreach ($User as $key => $value) 
+		{
+			if($value["user_name"] == $user && $pass == $value["user_password"])
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	public function checkUserSignUp($user)
+	{
+		$sql = "SELECT * FROM `users`";
+		$result = self::$conn->query($sql);
+		$User = $this->getArray($result);
+		foreach ($User as $key => $value) 
+		{
+			if($value["user_name"] == $user)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	//return 1 product
 	public function getProduct($ID)
@@ -268,6 +305,27 @@ class DB
 	{
 		$sql = "UPDATE `products` SET name = '$name', description = '$description', manu_ID = $manu_ID, type_ID = $type_ID, price = $price  WHERE ID = $ID";
 		// var_dump($sql);
+		self::$conn->query($sql);
+	}
+
+	public function checkPassword($userpassword, $userpasswordcheck)
+	{
+		if($userpassword != $userpasswordcheck)
+		{
+			return false;
+		}
+		return true;
+	}
+	public function signUp($username, $userpassword)
+	{
+
+		$sql = "INSERT INTO `users` (user_name, user_password) VALUES ('$username','$userpassword')";
+		self::$conn->query($sql);
+	}
+
+	public function delAcc($name)
+	{
+		$sql = "DELETE FROM `users` WHERE `user_name` LIKE '$name'";
 		self::$conn->query($sql);
 	}
 }

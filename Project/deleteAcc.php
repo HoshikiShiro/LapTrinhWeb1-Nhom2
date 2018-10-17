@@ -1,57 +1,24 @@
 <?php
 session_start();
+session_destroy();
 require "data.php";
 require "config.php";
-
-if(isset($_POST['user']))
+if(isset($_POST['usernamead']) && isset($_POST['userpasswordad']))
 {
-	$user = $_POST['user'];
-	$pass = $_POST['pass'];
+	$user = $_POST['usernamead'];
+	$pass = $_POST['userpasswordad'];
 	$db= new DB();
 	// var_dump($db->getUser());
-	if($db->checkUser($user,$pass))
+	if($db->checkAdmin($user,$pass))
 	{
-		if(isset($_POST['remember']))
-		{
-			setcookie('user',$_POST['user'],time()+3600);
-			setcookie('pass',$_POST['pass'],time()+3600);
-		}
-		$_SESSION['user']=$_POST['user'];
-		header("location:index.php");
-	}
-}
-if(isset($_POST['username']))
-{
-	$username = $_POST['username'];
-	$userpassword = $_POST['userpassword'];
-	$passwordcheck = $_POST['passwordcheck'];
-	$db= new DB();
-	if($db->checkPassword($userpassword ,$passwordcheck))
-	{
-		if($db->checkUserSignUp($username))
-		{
-			echo '<script language="javascript">';
-			echo 'alert("This name has already been taken")';
-			echo '</script>';
-		}else
-		{
-			$db->signUp($username, $userpassword);
-		}
+		$_SESSION['usernamead'] = $_POST['usernamead'];
+		$_SESSION['userpasswordad'] = $_POST['userpasswordad'];
 	}else
 	{
 		echo '<script language="javascript">';
-		echo 'alert("Wrong confirm password")';
+		echo 'alert("Need Administrator account to use this tab")';
 		echo '</script>';
 	}
-
-}
-if(isset($_POST['usernamedel']))
-{
-	$db= new DB();
-	echo '<script language="javascript">';
-	echo 'alert("'.$_POST['usernamedel'].' has been deleted")';
-	echo '</script>';
-	$db->delAcc($_POST['usernamedel']);
 }
 ?>
 <!DOCTYPE html>
@@ -77,26 +44,43 @@ if(isset($_POST['usernamedel']))
 
 	<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
 		<ul>
-			<li class=""><a title="" href="#"><span class="text">Sign in</span></a></li>
+			<li class=""><a title="" href="login.php"><span class="text">Sign in</span></a></li>
 			<li class=""><a title="" href="sign_up.php"><span class="text">Sign up</span></a></li>
 			<li class=""><a title="" href="deleteAcc.php"><span class="text">Delete Account</span></a></li>
 		</ul>
 	</div>
 
+	<?php
+		if(!isset($_SESSION['usernamead']) || !isset($_POST['userpasswordad']))
+		{
+	?>
 	<!-- BEGIN CONTENT -->
 	<div id="content" >
-		<form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
-			<br><span><b>Username</b></span><input type="text" name="user" value="<?php echo isset($_COOKIE['user'])?$_COOKIE['user']:"" ?>"><br><br>
-			<span><b>Password</b> </span><input type="Password" name="pass"><br><br>
+		<form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+			<br><span><b>Username</b></span><input type="text" name="usernamead"><br><br>
+			<span><b>Password</b> </span><input type="Password" name="userpasswordad"><br><br>
 			<label>
-				<input type="checkbox" name="remember">Remember
 				<input type="submit" name="" value="Submit">
 			</label>
 		</form>
 	</div>
 
 	<!-- END CONTENT -->
-
+	<?php
+		}else
+		{
+	?>
+	<div id="content" >
+		<form action="login.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+			<br><span><b>Delete User</b></span><input type="text" name="usernamedel" value="<?php echo isset($_COOKIE['user'])?$_COOKIE['user']:"" ?>"><br><br>
+			<label>
+				<input type="submit" name="" value="Delete">
+			</label>
+		</form>
+	</div>
+	<?php
+		}
+	?>
 	<!--Footer-part-->
 	<div class="row-fluid">
 		<div id="footer" class="span12"> 2017 &copy; TDC - Lập trình web 1</div>

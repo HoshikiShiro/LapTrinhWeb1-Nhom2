@@ -3,56 +3,7 @@ session_start();
 require "data.php";
 require "config.php";
 
-if(isset($_POST['user']))
-{
-	$user = $_POST['user'];
-	$pass = $_POST['pass'];
-	$db= new DB();
-	// var_dump($db->getUser());
-	if($db->checkUser($user,$pass))
-	{
-		if(isset($_POST['remember']))
-		{
-			setcookie('user',$_POST['user'],time()+3600);
-			setcookie('pass',$_POST['pass'],time()+3600);
-		}
-		$_SESSION['user']=$_POST['user'];
-		header("location:index.php");
-	}
-}
-if(isset($_POST['username']))
-{
-	$username = $_POST['username'];
-	$userpassword = $_POST['userpassword'];
-	$passwordcheck = $_POST['passwordcheck'];
-	$db= new DB();
-	if($db->checkPassword($userpassword ,$passwordcheck))
-	{
-		if($db->checkUserSignUp($username))
-		{
-			echo '<script language="javascript">';
-			echo 'alert("This name has already been taken")';
-			echo '</script>';
-		}else
-		{
-			$db->signUp($username, $userpassword);
-		}
-	}else
-	{
-		echo '<script language="javascript">';
-		echo 'alert("Wrong confirm password")';
-		echo '</script>';
-	}
 
-}
-if(isset($_POST['usernamedel']))
-{
-	$db= new DB();
-	echo '<script language="javascript">';
-	echo 'alert("'.$_POST['usernamedel'].' has been deleted")';
-	echo '</script>';
-	$db->delAcc($_POST['usernamedel']);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,19 +28,19 @@ if(isset($_POST['usernamedel']))
 
 	<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
 		<ul>
-			<li class=""><a title="" href="#"><span class="text">Sign in</span></a></li>
-			<li class=""><a title="" href="sign_up.php"><span class="text">Sign up</span></a></li>
+			<li class=""><a title="" href="login.php"><span class="text">Sign in</span></a></li>
+			<li class=""><a title="" href="#"><span class="text">Sign up</span></a></li>
 			<li class=""><a title="" href="deleteAcc.php"><span class="text">Delete Account</span></a></li>
 		</ul>
 	</div>
 
 	<!-- BEGIN CONTENT -->
 	<div id="content" >
-		<form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
-			<br><span><b>Username</b></span><input type="text" name="user" value="<?php echo isset($_COOKIE['user'])?$_COOKIE['user']:"" ?>"><br><br>
-			<span><b>Password</b> </span><input type="Password" name="pass"><br><br>
+		<form action="login.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+			<br><span><b>Username</b></span><input type="text" name="username" value="<?php echo isset($_COOKIE['user'])?$_COOKIE['user']:"" ?>"><br><br>
+			<span><b>Password</b> </span><input type="Password" name="userpassword"><br><br>
+			<span><b>Confirm Password</b> </span><input type="Password" name="passwordcheck"><br><br>
 			<label>
-				<input type="checkbox" name="remember">Remember
 				<input type="submit" name="" value="Submit">
 			</label>
 		</form>
